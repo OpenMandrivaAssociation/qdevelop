@@ -1,7 +1,6 @@
 %define name	qdevelop
-%define version 0.26
-%define svnrel	393
-%define release %mkrel -c svn%svnrel 1
+%define version 0.27
+%define release %mkrel -c rc1 1
 
 Summary:	A Development Environment for Qt4
 Name:		%{name}
@@ -10,7 +9,7 @@ Release:	%{release}
 License:	GPLv2
 Group:		Development/C++
 URL:		http://qdevelop.org/
-Source:		http://qdevelop.org/public/release/%{name}-%{version}-svn%{svnrel}.tar.bz2
+Source:		http://qdevelop.org/public/release/%{name}-%{version}-rc1.tar.bz2
 Source1:	qdevelop-16.png
 Source2:	qdevelop-32.png
 Source3:	qdevelop-48.png
