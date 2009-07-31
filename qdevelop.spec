@@ -1,6 +1,6 @@
 %define name	qdevelop
 %define version 0.27.2
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary:	A Development Environment for Qt4
 Name:		%{name}
@@ -13,6 +13,8 @@ Source:		http://qdevelop.org/public/release/%{name}-%{version}.tar.bz2
 Source1:	qdevelop-16.png
 Source2:	qdevelop-32.png
 Source3:	qdevelop-48.png
+Patch0:		qt45.patch.bz2
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-builtroot
 
 BuildRequires:	cmake 
@@ -20,6 +22,9 @@ BuildRequires:	qt4-devel
 Requires:		qt4-devel
 Requires: 		ctags
 Requires:		gdb
+Requires: 		qt4-designer
+Requires:		qt4-assistant
+Requires:		qt4-linguist
 
 %description 
 QDevelop is a development environment entirely dedicated to Qt4.
@@ -36,6 +41,7 @@ KDevelop have different code sources.
 
 %prep
 %setup -q
+%patch0 -p0
 chmod 0644 README.txt copying ChangeLog.txt
 
 %build
@@ -43,7 +49,7 @@ chmod 0644 README.txt copying ChangeLog.txt
 %make
 
 %install
-[ "%{buildroot}" != '/' ] && rm -rf %{buildroot}
+#[ "%{buildroot}" != '/' ] && rm -rf %{buildroot}
 %makeinstall_std -C build
 mkdir -p %{buildroot}%{_datadir}/applications
 cat > %{buildroot}%{_datadir}/applications/mandriva-%{name}.desktop <<EOF
