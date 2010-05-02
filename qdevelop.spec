@@ -1,6 +1,6 @@
 %define name	qdevelop
-%define version 0.27.2
-%define release %mkrel 2
+%define version 0.28
+%define release %mkrel 1
 
 Summary:	A Development Environment for Qt4
 Name:		%{name}
@@ -9,11 +9,11 @@ Release:	%{release}
 License:	GPLv2
 Group:		Development/C++
 URL:		http://qdevelop.org/
-Source:		http://qdevelop.org/public/release/%{name}-%{version}.tar.bz2
+Source:		http://qdevelop.org/public/release/%{name}-v%{version}.tar.bz2
 Source1:	qdevelop-16.png
 Source2:	qdevelop-32.png
 Source3:	qdevelop-48.png
-Patch0:		qt45.patch.bz2
+Patch0:		installpath.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-builtroot
 
@@ -40,12 +40,12 @@ but faster, light and especially multi-platforms. QDevelop and
 KDevelop have different code sources.
 
 %prep
-%setup -q
-%patch0 -p0
+%setup -q -n %{name}-v%{version}
+%patch0 -p1
 chmod 0644 README.txt copying ChangeLog.txt
 
 %build
-%cmake_qt4
+%cmake_qt4 -DSHARE_INSTALL_PREFIX:PATH=%{_datadir}
 %make
 
 %install
@@ -99,3 +99,4 @@ mkdir -p %{buildroot}/%{_liconsdir}
 %{_liconsdir}/%name.png
 %{_iconsdir}/%name.png
 %{_miconsdir}/%name.png
+%{_datadir}/qdevelop/translations
