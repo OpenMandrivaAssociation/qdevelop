@@ -1,6 +1,6 @@
 %define name	qdevelop
 %define version 0.28
-%define release %mkrel 1
+%define release %mkrel 2
 
 Summary:	A Development Environment for Qt4
 Name:		%{name}
@@ -8,8 +8,8 @@ Version:	%{version}
 Release:	%{release}
 License:	GPLv2
 Group:		Development/C++
-URL:		http://qdevelop.org/
-Source:		http://qdevelop.org/public/release/%{name}-v%{version}.tar.bz2
+URL:		http://biord-software.org/fr/qdevelop/
+Source:		http://biord-software.org/downloads/%{name}-v%{version}.tar.bz2
 Source1:	qdevelop-16.png
 Source2:	qdevelop-32.png
 Source3:	qdevelop-48.png
