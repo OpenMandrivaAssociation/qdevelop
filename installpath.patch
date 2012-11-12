@@ -1,0 +1,67 @@
+Index: qdevelop-v0.28/CMakeLists.txt
+===================================================================
+--- qdevelop-v0.28/CMakeLists.txt
++++ qdevelop-v0.28/CMakeLists.txt	2010-05-02 17:30:24.000000000 +0200
+@@ -34,6 +34,13 @@
+ 
+ ADD_DEFINITIONS( ${OPTIMIZATION_FLAGS} )
+ 
++SET(PLUGINS_DIR "${CMAKE_INSTALL_LIBDIR}/qdevelop/plugins")
++SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DPLUGINS_DIR=\\\"${PLUGINS_DIR}\\\"")
++
++SET(TRANSLATIONS_DIR "${SHARE_INSTALL_PREFIX}/qdevelop/translations")
++SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DTRANSLATIONS_DIR=\\\"${TRANSLATIONS_DIR}\\\"")
++MESSAGE (STATUS "Installing translation files in ${TRANSLATIONS_DIR}")
++
+ # input files
+ SET( qdevelop_UIS
+ 	ui/about.ui 
+@@ -279,8 +286,8 @@
+ 				INSTALL (TARGETS ${PLG_NAME} DESTINATION bin/plugins)
+ 				INSTALL (FILES ${PLG_QM} DESTINATION translations/${PLG_NAME})
+ 			ELSE (NOT WIN32)
+-				INSTALL (TARGETS ${PLG_NAME} DESTINATION lib/qdevelop/plugins)
+-				INSTALL (FILES ${PLG_QM} DESTINATION lib/qdevelop/translations/${PLG_NAME})
++				INSTALL (TARGETS ${PLG_NAME} DESTINATION ${PLUGINS_DIR})
++				INSTALL (FILES ${PLG_QM} DESTINATION ${TRANSLATIONS_DIR}/${PLG_NAME})
+ 			ENDIF (WIN32)
+ 		ENDIF (IS_EMPTY)
+ 	ENDFOREACH (PLG)
+@@ -290,5 +297,5 @@
+ IF (WIN32)
+ 	INSTALL (FILES ${qdevelop_QM} DESTINATION translations)
+ ELSE (NOT WIN32)
+-	INSTALL (FILES ${qdevelop_QM} DESTINATION lib/qdevelop/translations)
++	INSTALL (FILES ${qdevelop_QM} DESTINATION ${TRANSLATIONS_DIR})
+ ENDIF (WIN32)
+Index: qdevelop-v0.28/src/main.cpp
+===================================================================
+--- qdevelop-v0.28/src/main.cpp
++++ qdevelop-v0.28/src/main.cpp	2010-05-02 17:30:50.000000000 +0200
+@@ -76,12 +76,7 @@
+ 	//
+ 	splash->showMessage(QObject::tr("Loading:")+" "+QObject::tr("Interface translation"), Qt::AlignRight | Qt::AlignTop,  Qt::white);
+ 	qApp->processEvents();
+-	#ifdef Q_OS_WIN32
+-	QString defaultTranslationsPath = "/translations";
+-	#else
+-	QString defaultTranslationsPath = "/../lib/qdevelop/translations";
+-	#endif
+-	QDir translationsDir(QCoreApplication::applicationDirPath() + defaultTranslationsPath);
++	QDir translationsDir(TRANSLATIONS_DIR);
+ 	// load & install QDevelop translation
+ 	translatorQDevelop.load(translationsDir.absoluteFilePath("QDevelop_"+language+".qm"));
+ 	if (translatorQDevelop.isEmpty())
+Index: qdevelop-v0.28/src/mainimpl.cpp
+===================================================================
+--- qdevelop-v0.28/src/mainimpl.cpp
++++ qdevelop-v0.28/src/mainimpl.cpp	2010-05-02 17:30:24.000000000 +0200
+@@ -2420,7 +2420,7 @@
+ #else
+     if ( m_pluginsDirectory.isEmpty() )
+     {
+-        QDir dir = QDir(qApp->applicationDirPath()+"/../lib/qdevelop/plugins/");
++        QDir dir = QDir(PLUGINS_DIR);
+         foreach(QString fileName, dir.entryList(QDir::Files) )
+         {
+             entryList += dir.absoluteFilePath(fileName);
