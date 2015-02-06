@@ -1,6 +1,6 @@
 %define name	qdevelop
 %define version 0.27.2
-%define release %mkrel 2
+%define release 3
 
 Summary:	A Development Environment for Qt4
 Name:		%{name}
