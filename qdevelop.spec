@@ -8,7 +8,7 @@ Version:	%{version}
 Release:	%{release}
 License:	GPLv2
 Group:		Development/C++
-URL:		http://qdevelop.org/
+URL:		https://qdevelop.org/
 Source:		http://qdevelop.org/public/release/%{name}-%{version}.tar.bz2
 Source1:	qdevelop-16.png
 Source2:	qdevelop-32.png
